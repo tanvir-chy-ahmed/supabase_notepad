@@ -1,21 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_todo_01/model/updatenote.dart';
 
-import '../model/savenote.dart';
+class DetailsScreen extends StatefulWidget {
+  final Map<String, dynamic> notes;
 
-class AddNote extends StatefulWidget {
-  const AddNote({super.key});
+  const DetailsScreen({super.key, required this.notes});
 
   @override
-  State<AddNote> createState() => _AddNoteState();
+  State<DetailsScreen> createState() => _DetailsScreenState();
 }
 
-class _AddNoteState extends State<AddNote> {
+class _DetailsScreenState extends State<DetailsScreen> {
   TextEditingController titleCtrl = TextEditingController();
   TextEditingController descCtrl = TextEditingController();
   final FocusNode titlenode = FocusNode();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    titleCtrl.text = widget.notes['title'];
+    descCtrl.text = widget.notes['desc'];
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // final note = notes[index];
+
     return Scaffold(
       backgroundColor: Color(0xFF252525),
       resizeToAvoidBottomInset: true, //bottom txt field
@@ -32,7 +43,11 @@ class _AddNoteState extends State<AddNote> {
           IconButton(
             onPressed: () {
               //Save Logics
-              saveNote(titleCtrl, descCtrl);
+              updateNote(
+                noteId: widget.notes['id'],
+                titleCtrl: titleCtrl,
+                descCtrl: descCtrl,
+              );
               Navigator.pop(context);
             },
             icon: Icon(Icons.save),
@@ -56,7 +71,7 @@ class _AddNoteState extends State<AddNote> {
               border: OutlineInputBorder(
                 borderSide: BorderSide(width: 0, color: Colors.transparent),
               ),
-              hintText: 'Title',
+              hintText: "",
               hintStyle: TextStyle(
                 color: Colors.white70,
                 fontSize: 30,

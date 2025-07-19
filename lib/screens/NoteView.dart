@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_todo_01/screens/Details.dart';
 import 'package:supabase_todo_01/screens/addnote.dart';
+
+import '../model/fetchnote.dart';
 
 class Noteview extends StatefulWidget {
   const Noteview({super.key});
@@ -10,18 +12,7 @@ class Noteview extends StatefulWidget {
 }
 
 class _NoteviewState extends State<Noteview> {
-  final List<String> titles = [
-    'Tile 1',
-    'Tile 2',
-    'Tile 3',
-    'Tile 4',
-    'Tile 5',
-    'Tile 6',
-    'Tile 7',
-    'Tile 8',
-  ];
-
-  final List<Color> colors = [
+  final List<Color> colorss = [
     Color(0xFFFF9E9E),
     Color(0xFFFD99FF),
     Color(0xFF91F48F),
@@ -30,18 +21,8 @@ class _NoteviewState extends State<Noteview> {
     Color(0xFFB69CFF),
   ];
 
-  Stream<List<Map<String, dynamic>>> getNotesStream() {
-    return Supabase.instance.client
-        .from('notes')
-        .stream(primaryKey: ['id'])
-        .order('id');
-  }
-
   @override
   Widget build(BuildContext context) {
-    final supabase = Supabase.instance.client;
-
-    //colors[index % colors.length],
     return Scaffold(
       backgroundColor: Color(0xFF252525),
       floatingActionButton: FloatingActionButton(
@@ -74,10 +55,7 @@ class _NoteviewState extends State<Noteview> {
       ),
 
       body: StreamBuilder<List<Map<String, dynamic>>>(
-        stream: supabase
-            .from('notes')
-            .stream(primaryKey: ['id'])
-            .order('id', ascending: false),
+        stream: fetchnote(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -103,36 +81,102 @@ class _NoteviewState extends State<Noteview> {
                   const SizedBox(height: 20),
                   const Text(
                     "No notes found",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ],
               ),
             );
-
           }
 
           return RefreshIndicator(
             onRefresh: () async {
               setState(() {});
             },
-            child: ListView.builder(
-              itemCount: notes.length,
-              itemBuilder: (context, index) {
+
+            child: GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              padding: const EdgeInsets.all(10),
+              children: List.generate(notes.length, (index) {
                 final note = notes[index];
-                return ListTile(
-                  title: Text(
-                    note['title'] ?? 'No title',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  subtitle: Text(
-                    note['desc'] ?? '',
-                    style: TextStyle(color: Colors.white70),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            DetailsScreen(notes: note),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                              const begin = Offset(1.0, 0.0);
+                              const end = Offset.zero;
+                              const curve = Curves.ease;
+
+                              final tween = Tween(
+                                begin: begin,
+                                end: end,
+                              ).chain(CurveTween(curve: curve));
+                              final offsetAnimation = animation.drive(tween);
+
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                      ),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: colorss[index % colorss.length],
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Card(
+                      color: colorss[index % colorss.length],
+                      // <- Fix: make card transparent
+                      elevation: 3,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      margin: EdgeInsets.zero,
+                      // Removed extra margin
+                      child: ClipRRect(
+                        // Ensure content is clipped to rounded edges
+                        borderRadius: BorderRadius.circular(16),
+                        child: Padding(
+                          padding: const EdgeInsets.all(14),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                note['title'],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black, // black text
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                note['desc'],
+                                maxLines: 6,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black, // black text
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 );
-              },
+              }),
             ),
           );
         },

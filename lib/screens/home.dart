@@ -17,15 +17,26 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Noteview(),
       appBar: AppBar(
         backgroundColor: Color(0xFF252525),
-        title: Text("Notes",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25,color: Colors.white),),
+        title: Text(
+          "Notes",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 25,
+            color: Colors.white,
+          ),
+        ),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.search,color: Colors.white,)),
-          IconButton(onPressed: (){}, icon: Icon(Icons.info_outline,color: Colors.white,)),
-          SizedBox(width: 10,)
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.search, color: Colors.white),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.info_outline, color: Colors.white),
+          ),
+          SizedBox(width: 10),
         ],
-
       ),
-
     );
   }
 }

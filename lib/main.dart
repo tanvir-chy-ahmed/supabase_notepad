@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supabase_todo_01/screens/addnote.dart';
 import 'package:supabase_todo_01/screens/home.dart';
 
 void main() async {
@@ -19,10 +18,12 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-              primarySwatch: Colors.teal
-        ),
-        debugShowCheckedModeBanner: false, home: HomeScreen());
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.teal,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
+    );
   }
 }
