@@ -1,0 +1,2 @@
+String ANNONKEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZkeHV0bHJocnV2dWtjZm9oc251Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI4NDgzMzcsImV4cCI6MjA2ODQyNDMzN30.fkvyeqzeJtlzsmMGxUaAeNqYt1BK5Jai9F8xxcXgABw";
+String URL = "https://fdxutlrhruvukcfohsnu.supabase.co";
