@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> updateNote({
-  required int noteId, // Make sure to pass the correct ID
+  required int noteId,
   required TextEditingController titleCtrl,
   required TextEditingController descCtrl,
 }) async {

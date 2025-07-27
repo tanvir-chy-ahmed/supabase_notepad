@@ -1,4 +1,4 @@
-name: supabase_todo_01
+name: xornex
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -30,7 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_launcher_icons:
   supabase_flutter:
   intl:
 
@@ -49,6 +49,13 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
 
+
+
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/notepad.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -64,6 +71,7 @@ flutter:
   assets:
      - assets/home_onb.png
      - assets/search_onb.png
+     - assets/coding.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

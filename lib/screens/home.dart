@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'Developer.dart';
 import 'NoteView.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,7 +32,12 @@ class _HomeScreenState extends State<HomeScreen> {
             icon: Icon(Icons.search, color: Colors.white),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DeveloperInfoPage()),
+              );
+            },
             icon: Icon(Icons.info_outline, color: Colors.white),
           ),
           SizedBox(width: 10),

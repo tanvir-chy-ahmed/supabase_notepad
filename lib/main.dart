@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:supabase_todo_01/credentials/ANNON_KEY.dart';
-import 'package:supabase_todo_01/screens/home.dart';
+import 'package:xornex/screens/home.dart';
+
+import 'credentials/ANNON_KEY.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

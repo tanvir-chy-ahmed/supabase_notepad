@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_todo_01/screens/Details.dart';
-import 'package:supabase_todo_01/screens/addnote.dart';
 
+import '../model/deletenote.dart';
 import '../model/fetchnote.dart';
+import 'Details.dart';
+import 'addnote.dart';
 
 class Noteview extends StatefulWidget {
   const Noteview({super.key});
@@ -143,33 +144,53 @@ class _NoteviewState extends State<Noteview> {
                       child: ClipRRect(
                         // Ensure content is clipped to rounded edges
                         borderRadius: BorderRadius.circular(16),
-                        child: Padding(
-                          padding: const EdgeInsets.all(14),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                note['title'],
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black, // black text
+                        child: Dismissible(
+                          key: Key(note['id'].toString()),
+                          direction: DismissDirection.endToStart,
+                          background: Container(
+                            padding: EdgeInsets.only(right: 20),
+                            alignment: Alignment.centerRight,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Icon(Icons.delete, color: Colors.white),
+                          ),
+                          onDismissed: (direction) async {
+                            await deleteNote(id: note['id']);
+                            setState(() {});
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Note deleted')),
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(14),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  note['title'],
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black, // black text
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 6),
-                              Text(
-                                note['desc'],
-                                maxLines: 6,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black, // black text
+                                const SizedBox(height: 6),
+                                Text(
+                                  note['desc'],
+                                  maxLines: 6,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black, // black text
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
