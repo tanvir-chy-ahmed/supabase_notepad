@@ -57,6 +57,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ],
       ),
 
+
+
       body: WillPopScope(
         onWillPop: ()async{
           updateNote(noteId:widget.notes['id'] , titleCtrl: titleCtrl, descCtrl: descCtrl);
